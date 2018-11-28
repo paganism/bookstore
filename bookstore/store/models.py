@@ -1,14 +1,20 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.utils.text import slugify
+from time import time
 
 
-# Create your models here.
+def gen_slug(s):
+    new_slug = slugify(s, allow_unicode=True)
+    return new_slug + '-' + str(int(time))
+
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
-    summary = models.CharField(max_length=1000)
+    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
-    genre = models.ManyToManyField('Genre', help_text='Select a genre for this book')
+    genre = models.ManyToManyField('Genre', related_name='books', help_text='Select a genre for this book')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
     COVER_CHOICE = (
@@ -30,15 +36,27 @@ class Book(models.Model):
     )
     allowed_age = models.CharField(max_length=2, choices=AGE_CHOICE, default='0', help_text='Choose age limit')
     price = models.CharField(max_length=6)
+    slug = models.SlugField(max_length=150, blank=True, unique=True)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
-    
+    book_image = models.ImageField(upload_to='img/', width_field=None, null=True)
     
     def __str__(self):
         return self.title
 
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+
+    display_genre.short_description = 'Genre'
+
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.slug = gen_slug(self.title)
+    #     super().save(*args, **kwargs)
+
     # def get_absolute_url(self):
     #     return reverse('books', args=[str(self.id)])
+
     class Meta:
         ordering = ['-created']
 
