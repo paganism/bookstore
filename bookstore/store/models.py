@@ -1,4 +1,6 @@
 from django.db import models
+from django.shortcuts import reverse
+
 
 # Create your models here.
 class Book(models.Model):
@@ -6,15 +8,16 @@ class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     summary = models.CharField(max_length=1000)
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
-    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    genre = models.ManyToManyField('Genre', help_text='Select a genre for this book')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+    
     COVER_CHOICE = (
         ('s', 'Soft'),
-        ('h', 'hard'),
+        ('h', 'hard')
     )
-    cover = models.CharField(max_length=1, choice=COVER_CHOICE, default='s', help_text='Choose book cover')
+    cover = models.CharField(max_length=1, choices=COVER_CHOICE, default='s', help_text='Choose book cover')
     publisher = models.CharField(max_length=100)
-    sku_code = models.CharField(max_length=20, help_text='Sku code may be only 20 characters', index=True)
+    sku_code = models.CharField(max_length=20, help_text='Sku code may be only 20 characters')
     pub_year = models.CharField(max_length=4, null=True, blank=True)
     num_pages = models.CharField(max_length=5)
     num_copies = models.CharField(max_length=6)
@@ -23,10 +26,12 @@ class Book(models.Model):
         ('6', '6+'),
         ('12', '12+'),
         ('16', '16+'),
-        ('18', '18+'),
+        ('18', '18+')
     )
-    allowed_age = models.CharField(max_length=2, choice=AGE_CHOICE, default='0', help_text='Choose age limit')
+    allowed_age = models.CharField(max_length=2, choices=AGE_CHOICE, default='0', help_text='Choose age limit')
     price = models.CharField(max_length=6)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
     
     
     def __str__(self):
@@ -35,7 +40,7 @@ class Book(models.Model):
     # def get_absolute_url(self):
     #     return reverse('books', args=[str(self.id)])
     class Meta:
-        ordering = ['due_back']
+        ordering = ['-created']
 
 
 class Author(models.Model):
@@ -43,6 +48,8 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField(null=True, blank=True)
+    created = models.DateField(auto_now_add=True)
+    modified = models.DateField(auto_now=True)
 
     def __str__(self):
         return '{} {}'.format(self.last_name, self.first_name)
@@ -53,6 +60,12 @@ class Author(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=30, help_text='Enter a book language')
+
+    def __str__(self):
+        return self.name
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100, help_text='Enter a book genre')
 
     def __str__(self):
         return self.name
