@@ -34,14 +34,25 @@ class Book(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse('books', args=[str(self.id)])
+    class Meta:
+        ordering = ['due_back']
 
 
-    class Author(models.Model):
-        first_name = models.CharField(max_length=100)
-        last_name = models.CharField(max_length=100)
-        date_of_birth = models.DateField(null=True, blank=True)
-        date_of_death = models.DateField(null=True, blank=True)
+class Author(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_death = models.DateField(null=True, blank=True)
 
-        def __str__(self):
-            return '{} {}'.format(self.last_name, self.first_name)
-            
+    def __str__(self):
+        return '{} {}'.format(self.last_name, self.first_name)
+
+    class Meta:
+        ordering = ['last_name']
+
+
+class Language(models.Model):
+    name = models.CharField(max_length=30, help_text='Enter a book language')
+
+    def __str__(self):
+        return self.name
