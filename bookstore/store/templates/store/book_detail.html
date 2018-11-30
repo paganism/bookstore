@@ -2,23 +2,40 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Title: {{ book.title }}</h1>
+<div class="col-sm-4 mt-3">
+    <h3>{{ book.title }}</h3>
+</div>
+<div class="row">
 
-  <p><strong>Author:</strong> <a href="{# url 'author-detail' book.author.pk #}">{{ book.author }}</a></p> <!-- author detail link not yet defined -->
-  <p><strong>Summary:</strong> {{ book.summary }}</p>
-  <p><strong>ISBN:</strong> {{ book.isbn }}</p> 
-  <p><strong>Language:</strong> {{ book.language }}</p>  
-  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>  
-
-  <div style="margin-left:20px;margin-top:20px">
-    <h4>Copies</h4>
-
-    {% for copy in book.bookinstance_set.all %}
-    <hr>
-    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
-    {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
-    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
-    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
-    {% endfor %}
+  <div class="col-sm-2 col-lg-2 col-md-2 mt-4">
+      <p><a href="/static/{{ book.book_image }}"><img class="rounded float-left" src="/static/{{ book.book_image }}" alt="{{ book.title }}"  style="width: 15rem;"></a></p>
+      <!-- <p><strong>Author:</strong> <a href="{# url 'author-detail' book.author.pk #}">{{ book.author }}</a></p> author detail link not yet defined -->
+      <!-- <p><strong>Summary:</strong> {{ book.summary }}</p> -->
+      <!-- <p><strong>ISBN:</strong> {{ book.isbn }}</p>  -->
+      <!-- <p><strong>Language:</strong> {{ book.language }}</p>   -->
+      <!-- <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>   -->
   </div>
+
+<div class="col-sm-3 col-lg-3 col-md-3 mt-4">
+    <nav>
+        <div class="nav nav-tabs ml-15" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Характеристики</a>
+          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Оплата</a>
+          <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Доставка</a>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            Автор: <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a><br>
+            Краткое описание: {{ book.summary }} <br>
+            ISBN: {{ book.isbn }} <br> 
+            Язык: {{ book.language }}  <br> 
+            Жанр: {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}    
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+     </div>
+    </div>
+  </div>
+
 {% endblock %}

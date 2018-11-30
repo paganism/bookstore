@@ -54,8 +54,8 @@ class Book(models.Model):
     #         self.slug = gen_slug(self.title)
     #     super().save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return reverse('books', args=[str(self.id)])
+    def get_absolute_url(self):
+        return reverse('book-detail', args=[str(self.id)])
 
     class Meta:
         ordering = ['-created']

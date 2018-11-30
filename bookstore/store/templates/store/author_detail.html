@@ -1,0 +1,24 @@
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="col-sm-4 mt-3">
+    <h3> {{ author }}</h3>
+</div>
+<div class="row">
+
+  <div class="col-sm-2 col-lg-2 col-md-2 mt-4">
+      <p><a href="/static/{{ book.book_image }}"><img class="rounded float-left" src="/static/{{ book.book_image }}" alt="{{ book.title }}"  style="width: 15rem;"></a></p>
+      <!-- <p><strong>Author:</strong> <a href="{# url 'author-detail' book.author.pk #}">{{ book.author }}</a></p> author detail link not yet defined -->
+      <!-- <p><strong>Summary:</strong> {{ book.summary }}</p> -->
+      <!-- <p><strong>ISBN:</strong> {{ book.isbn }}</p>  -->
+      <!-- <p><strong>Language:</strong> {{ book.language }}</p>   -->
+      <!-- <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>   -->
+  </div>
+
+<div class="col-sm-3 col-lg-3 col-md-3 mt-4">
+    Тут будет фотография и биография Автора, а также ссылки на его книги
+    </div>
+  </div>
+
+{% endblock %}
