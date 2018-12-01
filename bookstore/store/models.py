@@ -87,3 +87,22 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class GenreGroups(models.Model):
+    name = models.CharField(max_length=150, unique=True, help_text='Enter genre group name')
+    parent_group = models.ForeignKey('GenreGroups', default=-1, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class GenreDepends(models.Model):
+    genre_group = models.ForeignKey('GenreGroups', on_delete=models.SET_NULL, null=True)
+    genre = models.ForeignKey('Genre', on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        unique_together = (('genre_group', 'genre'),)
+
+    def __str__(self):
+        return '{} {}'.format(self.genre_group, self.genre)
