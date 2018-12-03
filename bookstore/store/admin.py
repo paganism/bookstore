@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Author, Genre, Book, Language, GenreGroups, GenreDepends
+from .models import Author, Genre, Book, Language, GenreGroups #, GenreDepends
 
 
 @admin.register(Book)
@@ -23,16 +23,16 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(GenreGroups)
 class GenreGroupsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'parent_group',)
-    fields = ['name', 'parent_group']
-    list_filter = ('name', 'parent_group',)
+    list_display = ('id', 'name', 'parent_group')
+    fields = ['name', 'parent_group', 'genre']
+    list_filter = ('name', 'parent_group')
 
 
-@admin.register(GenreDepends)
-class GenreDependsAdmin(admin.ModelAdmin):
-    list_display = ('genre_group', 'genre',)
-    fields = ['genre_group', 'genre']
-    list_filter = ('genre_group', 'genre',)
+# @admin.register(GenreDepends)
+# class GenreDependsAdmin(admin.ModelAdmin):
+#     list_display = ('genre_group', 'genre',)
+#     fields = ['genre_group', 'genre']
+#     list_filter = ('genre_group', 'genre',)
 
 
 @admin.register(Genre)

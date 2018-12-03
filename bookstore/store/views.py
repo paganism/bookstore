@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db.models import Max
 
 from .models import Book, Author, GenreGroups
 
@@ -60,22 +61,23 @@ class CatalogView(generic.ListView):
         # paginator = Paginator(book_list, 10)
         # context['paginator'] = paginator
         #print(context)
-        print(self.request.GET['genre'])
+        # print(self.request.GET['genre'])
         # print(self.request.GET['new_book'])
         # print(self.request.GET['bestseller'])
         # print(self.request.GET['min_price'])
         # print(self.request.GET['max_price'])
 
-        genre = self.request.GET['genre']
+        genre_group = self.request.GET['genre_group']
         # new_book = self.request.GET['new_book']
         # best_seller = self.request.GET['bestseller']
-        # min_price = self.request.GET['min_price']
-        # max_price = self.request.GET['max_price']
-        # if max_price < min_price:
-        #     max_price = min_price
-        books = Book.objects.filter(genre__iexact=genre)
-        context['books'] = books
-        print(books)
+        min_price = self.request.GET['min_price']
+        max_price = self.request.GET['max_price']
+        # max_pr = Book.objects.all().aggregate(Max('price'))
+        if max_price < min_price or not max_price:
+            max_price = Book.objects.all().aggregate(Max('price'))
+        books = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
+        # context['books'] = books
+        # print(books)
         return context
 """
 select * from store_book where id in (select book_id from store_book_genre where genre_id in (select genre_id from store_genredepends where genre_group_id in 
