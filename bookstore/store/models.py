@@ -92,10 +92,13 @@ class Genre(models.Model):
 class GenreGroups(models.Model):
     name = models.CharField(max_length=150, unique=True, help_text='Enter genre group name')
     parent_group = models.ForeignKey('GenreGroups', default=-1, on_delete=models.SET_NULL, null=True, blank=True)
+    created = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-created']
 
 class GenreDepends(models.Model):
     genre_group = models.ForeignKey('GenreGroups', on_delete=models.SET_NULL, null=True)

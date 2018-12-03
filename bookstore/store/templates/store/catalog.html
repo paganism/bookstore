@@ -10,19 +10,67 @@
           <li>{{ genre }}</li>
         </ul>
       {% endfor %}
-    </div>
-    {% for book in book_list %}
-    <div class="col-sm-1 col-md-1 col-lg-1"> 
-        <div class="card mt-2 " style="width: 8rem; font-size: 10px;">
-          <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}"></a>
-          <div class="card-body">
-            <h5 class="card-title"  style="font-size: 10px;">{{ book.title }}</h5>
-            <p class="card-text">{{ book.author }}</p>
-            <a href="#" class="btn btn-primary">В корзину</a>
+      <form role="form" class="panel panel-default" method="GET">
+          <div class="panel-body">
+            <p>Выбрать жанр</p>
+            <div class="form-group">
+              <select name="genre" class="form-control">
+                 
+                {% for genre in genregroups_list %}
+                <option selected>{{ genre }}</option>
+                {% endfor %}
+                <option selected></option>
+              </select>
+            </div>
+            <div class="form-group">Фильтр
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="new_book" value="True">
+                  новинки
+                </label>
+                <label>
+                    <input type="checkbox" name="bestseller" value="True">
+                  бестселлеры
+                </label>
+              </div>
+            </div>
+            <p><strong>Цена</strong></p>
+            <div class="form-group ">
+              <div class="input-group">
+                <span class="input-group-addon">от</span>
+                <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format"
+                       placeholder="любая">
+                <span class="input-group-addon">р.</span>
+              </div>
+            </div>
+            <div class="form-group ">
+              <div class="input-group">
+                <span class="input-group-addon">до</span>
+                <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format"
+                       placeholder="любая">
+                <span class="input-group-addon">р.</span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success">Показать</button>
           </div>
-        </div>
+        </form>
+      </div>
+    {# for book in book_list #}
+      <div class="col-sm-9 col-md-9 col-lg-9"> 
+          <div class="card-deck">
+          {% for book in book_list %}
+          <div class="card" style="width: 8rem; height: 25rem; font-size: 10px;">
+            <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}"></a>
+            <div class="card-body">
+              <h5 class="card-title"  style="font-size: 10px;">{{ book.title |truncatechars:50 }}</h5>
+              <p class="card-text">{{ book.author }}</p>
+              <a href="#" class="btn btn-primary">В корзину</a>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+      </div>
+    {# endfor #}
     </div>
-    {% endfor %}
-  </div>
   </div>
 {% endblock %}
