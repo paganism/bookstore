@@ -28,7 +28,7 @@
                 <option value="Компьютерная литература">Компьютерная литература</option> -->
                 
                 {% endfor %}
-                <option value="">Любой</option>
+                <!-- <option value="Любой"></option> -->
                 <!-- <option selected></option> -->
               </select>
             </div>
@@ -47,18 +47,18 @@
             <p><strong>Цена</strong></p>
             <div class="form-group ">
               <div class="input-group">
-                <span class="input-group-addon">от</span>
+                <span class="input-group-addon">от </span>
                 <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format"
                        placeholder="любая">
-                <span class="input-group-addon">р.</span>
+                <span class="input-group-addon"> р.</span>
               </div>
             </div>
             <div class="form-group ">
               <div class="input-group">
-                <span class="input-group-addon">до</span>
+                <span class="input-group-addon">до </span>
                 <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format"
                        placeholder="любая">
-                <span class="input-group-addon">р.</span>
+                <span class="input-group-addon"> р.</span>
               </div>
             </div>
             <button type="submit" class="btn btn-success">Показать</button>

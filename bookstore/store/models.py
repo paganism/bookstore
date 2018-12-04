@@ -22,11 +22,11 @@ class Book(models.Model):
         ('h', 'hard')
     )
     cover = models.CharField(max_length=1, choices=COVER_CHOICE, default='s', help_text='Choose book cover')
-    publisher = models.CharField(max_length=100)
+    publisher = models.ForeignKey('Publisher', related_name='books', on_delete=models.SET_NULL, null=True)
     sku_code = models.CharField(max_length=20, help_text='Sku code may be only 20 characters')
     pub_year = models.CharField(max_length=4, null=True, blank=True)
-    num_pages = models.CharField(max_length=5)
-    num_copies = models.CharField(max_length=6)
+    num_pages = models.CharField(max_length=5, null=True, blank=True)
+    num_copies = models.CharField(max_length=6, null=True, blank=True)
     AGE_CHOICE = (
         ('0', '0+'),
         ('6', '6+'),
@@ -36,7 +36,9 @@ class Book(models.Model):
     )
     allowed_age = models.CharField(max_length=2, choices=AGE_CHOICE, default='0', help_text='Choose age limit')
     price = models.CharField(max_length=6)
-    slug = models.SlugField(max_length=150, blank=True, unique=True)
+    slug = models.SlugField(max_length=150, blank=True, null=True)
+    new_book = models.BooleanField(default=False)
+    bestseller = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
     book_image = models.ImageField(upload_to='img/', width_field=None, null=True)
@@ -101,12 +103,12 @@ class GenreGroups(models.Model):
     class Meta:
         ordering = ['-created']
 
-# class GenreDepends(models.Model):
-#     genre_group = models.ForeignKey('GenreGroups', on_delete=models.SET_NULL, null=True)
-#     genre = models.ForeignKey('Genre', on_delete=models.SET_NULL, null=True)
 
-#     class Meta:
-#         unique_together = (('genre_group', 'genre'),)
+class Publisher(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True, help_text='Enter publisher group name')
 
-#     def __str__(self):
-#         return '{} {}'.format(self.genre_group, self.genre)
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
