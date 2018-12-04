@@ -1,13 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Каталог жанров</h1>
+    <h1><a href="{% url 'catalog' %}">Каталог жанров</a></h1>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-2 col-md-2 col-lg-2">
           {% for genre in genregroups_list %}
         <ul class="catalog">
-          <li>{{ genre }}</li>
+          <li><a href="{% url 'catalog' %}?genre_group={{ genre }}">{{ genre }}</a></li>
         </ul>
       {% endfor %}
       <form role="form" class="panel panel-default" method="GET">
@@ -16,10 +16,20 @@
             <div class="form-group">
               <select name="genre_group" class="form-control">
                  
+                {# for genre in genregroups_list #}
+                <option selected> {{ genre_group }}</option>
                 {% for genre in genregroups_list %}
-                <option selected>{{ genre }}</option>
+                <option value="{{ genre }}">{{ genre }}</option>
+                <!-- <option value="Художественная литература">Художественная литература</option>
+                <option value="Учебная литература">Учебная литература</option>
+                <option value="Иностранные языки">Иностранные языки</option>
+                <option value="Литература для детей">Литература для детей</option>
+                <option value="Медицина">Медицина</option>
+                <option value="Компьютерная литература">Компьютерная литература</option> -->
+                
                 {% endfor %}
-                <option selected></option>
+                <option value="">Любой</option>
+                <!-- <option selected></option> -->
               </select>
             </div>
             <div class="form-group">Фильтр

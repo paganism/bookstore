@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.db.models import Max
+from django.db.models import Max, Min
 
-from .models import Book, Author, GenreGroups
+from .models import Book, Author, GenreGroups, Genre
 
 
 # Create your views here.
@@ -43,72 +43,49 @@ class AuthorDetailView(generic.DetailView):
         return context
 
 class CatalogView(generic.ListView):
-    model = GenreGroups, Book
+    # model = Book
     template_name = 'store/catalog.html'
     # context_object_name = 'book_list'
     paginate_by = 8
 
     def get_queryset(self):
-        book_list = Book.objects.all()
+        genre_group = self.request.GET.get('genre_group', None)
+        new_book = self.request.GET.get('new_book', False)
+        bestseller = self.request.GET.get('bestseller', False)
+        min_price = self.request.GET.get('min_price', 0)
+        max_price = self.request.GET.get('min_price', Book.objects.all().aggregate(Max('price')))
+        if genre_group:
+            book_list = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
+        else:
+            book_list = Book.objects.all()
         return book_list
 
     def get_context_data(self, **kwargs):
         context = super(CatalogView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
-        
-        # book_list = Book.objects.all()
-        # context['book_list'] = book_list
-        # paginator = Paginator(book_list, 10)
-        # context['paginator'] = paginator
-        #print(context)
-        # print(self.request.GET['genre'])
-        # print(self.request.GET['new_book'])
-        # print(self.request.GET['bestseller'])
-        # print(self.request.GET['min_price'])
-        # print(self.request.GET['max_price'])
+    
 
-        genre_group = self.request.GET['genre_group']
-        # new_book = self.request.GET['new_book']
-        # best_seller = self.request.GET['bestseller']
-        min_price = self.request.GET['min_price']
-        max_price = self.request.GET['max_price']
-        # max_pr = Book.objects.all().aggregate(Max('price'))
-        if max_price < min_price or not max_price:
-            max_price = Book.objects.all().aggregate(Max('price'))
-        books = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
-        # context['books'] = books
-        # print(books)
+        genre_group = self.request.GET.get('genre_group', 'Любой')
+        new_book = self.request.GET.get('new_book', False)
+        bestseller = self.request.GET.get('bestseller', False)
+        min_price = self.request.GET.get('min_price', 0)
+        max_price = self.request.GET.get('max_price', 0)
+        if genre_group:
+            books = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
+        else:
+            books = Book.objects.all()
+        # context['book_list'] = book_list
+        context['genre_group'] = genre_group
+        context['new_book'] = new_book
+        context['bestseller'] = bestseller
+        context['min_price'] = min_price
+        context['max_price'] = max_price
         return context
 """
 select * from store_book where id in (select book_id from store_book_genre where genre_id in (select genre_id from store_genredepends where genre_group_id in 
 (select id from store_genregroups where name='Компьютерная литература')));
 """
-    
 
 
-class GenrePage(generic.ListView):
-    # model = GenreGroups, Book
-    # template_name = 'store/catalog.html'
-    paginate_by = 7
-    def get(self, request):
-        #tag = get_object_or_404(Post, slug__iexact=slug)
-        genre = self.request.GET['genre']
-        new_book = self.request.GET['new_book']
-        best_seller = self.request.GET['bestseller']
-        min_price = self.request.GET['min_price']
-        max_price = self.request.GET['max_price']
-        if max_price < min_price:
-            max_price = 0
-        context = {
-            'genre': genre,
-            'new_book': new_book,
-            'best_seller': best_seller,
-            'min_price': min_price,
-            'max_price': max_price
-        }
-        books = Book.objects.filter(Q(genre__icontains=genre), 
-                                    Q(new_book__icontains=new_book),
-                                    Q(best_seller__icontains=best_seller),
-                                    Q(min_price__gt=min_price),
-                                    Q(max_price__lt=max_price))
-        return render(request, 'store/catalog.html', context=context)
+
+

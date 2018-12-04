@@ -20,7 +20,7 @@
             
             <div class="col-sm-10 col-md-10"> -->
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Hedgehog & Caterpillar</a>
+                    <a class="navbar-brand" href="{% url 'catalog' %}">Hedgehog & Caterpillar</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -33,7 +33,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             {% for group in genregroups_list %}
-                                            <a class="dropdown-item" href="#">{{ group.name }}</a>
+                                            <a class="dropdown-item" href="{% url 'catalog' %}?genre_group={{ group }}">{{ group.name }}</a>
                                             {% endfor %}
                                       <!-- <a class="dropdown-item" href="#">Action</a> -->
                                       <!-- <a class="dropdown-item" href="#">Another action</a> -->
@@ -69,7 +69,12 @@
                           <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
                             <span class="page-links">   
                                     {% if page_obj.has_previous %}
-                                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}
+                                    {% if genre_group %}&genre_group={{ genre_group }}{% endif %}
+                                    {% if new_book %}&new_book={{ new_book }}{% endif %}
+                                    {% if bestseller %}&bestseller={{ bestseller }}{% endif %}
+                                    {% if min_price %}&min_price={{ min_price }}{% endif %}
+                                    {% if max_price %}&max_price={{ max_price }}{% endif %}">Предыдущая</a>
                                     {% else %}
                                     <!-- <a href="">Предыдущая</a> -->
                                     {% endif %}
@@ -91,7 +96,12 @@
                           <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
                                 <span class="page-links">   
                                         {% if page_obj.has_next %}
-                                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Следующая</a>
+                                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}
+                                        {% if genre_group %}&genre_group={{ genre_group }}{% endif %}
+                                        {% if new_book %}&new_book={{ new_book }}{% endif %}
+                                        {% if bestseller %}&bestseller={{ bestseller }}{% endif %}
+                                        {% if min_price %}&min_price={{ min_price }}{% endif %}
+                                        {% if max_price %}&max_price={{ max_price }}{% endif %}">Следующая</a>
                                         {% else %}
                                         <!-- <a href="" disabled>Следующая</a> -->
                                         {% endif %}
