@@ -4,13 +4,15 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models import Max, Min
 
+from .forms import FilterForm
+
 from .models import Book, Author, GenreGroups, Genre
 
 
 # Create your views here.
 class BookListView(generic.ListView):
     model = Book, GenreGroups
-    paginate_by = 20
+    paginate_by = 10
     template_name = 'store/book_list.html'
 
     def get_queryset(self):
@@ -20,6 +22,7 @@ class BookListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        
         print(context)
         return context
 
@@ -43,9 +46,7 @@ class AuthorDetailView(generic.DetailView):
         return context
 
 class CatalogView(generic.ListView):
-    # model = Book
-    template_name = 'store/catalog.html'
-    # context_object_name = 'book_list'
+    template_name = 'store/catalog1.html'
     paginate_by = 8
 
     def get_queryset(self):
@@ -64,37 +65,62 @@ class CatalogView(generic.ListView):
             max_price = Book.objects.all().aggregate(Max('price'))
         
         book_list = book_list.filter(Q(price__gte=min_price) & Q(price__lte=max_price))
-        # print(book_list.count())
-        # print('MIN PRICE IS {}'.format(min_price))
-        # print('MAX_PRICE IS {}'.format(max_price)) 
         return book_list
 
     def get_context_data(self, **kwargs):
         context = super(CatalogView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
-    
-
         genre_group = self.request.GET.get('genre_group', '')
-        # new_book = self.request.GET.get('new_book', False)
-        # bestseller = self.request.GET.get('bestseller', False)
-        # min_price = self.request.GET.get('min_price', 0)
-        # max_price = self.request.GET.get('max_price', 0)
-        # if genre_group:
-        #     books = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
-        # else:
-        #     books = Book.objects.all()
-        # context['book_list'] = book_list
         context['genre_group'] = genre_group
-        # context['new_book'] = new_book
-        # context['bestseller'] = bestseller
-        # context['min_price'] = min_price
-        # context['max_price'] = max_price
+
         return context
-"""
-select * from store_book where id in (select book_id from store_book_genre where genre_id in (select genre_id from store_genredepends where genre_group_id in 
-(select id from store_genregroups where name='Компьютерная литература')));
-"""
 
 
-
-
+def catalog_view(request):
+    book_list = Book.objects.all()
+    genregroups_list = GenreGroups.objects.filter(id__gt=1)
+    filter_form = FilterForm(request.GET or None)
+    new_book = False
+    bestseller = False
+    min_price = 0
+    max_price = Book.objects.all().aggregate(Max('price'))
+    genre_group = ''
+    if filter_form.is_valid():
+        filters = filter_form.cleaned_data
+        if filters['genre_group']:
+            genre_group = filters['genre_group']
+            book_list = Book.objects.filter(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name=genre_group)))
+        
+        if filters['new_book']:
+            book_list = book_list.filter(new_book=filters['new_book'])
+        if filters['bestseller']:
+            book_list = book_list.filter(bestseller=filters['bestseller'])
+        if filters['min_price']:
+            book_list = book_list.filter(price__gte=filters['min_price'])
+        if filters['max_price']:
+            book_list = book_list.filter(price__lte=filters['max_price'])
+        
+    paginator = Paginator(book_list, 5)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+    is_paginated = page.has_other_pages()
+    
+    if page.has_previous():
+        prev_url = '?page={}'.format(page.previous_page_number())
+    else:
+        prev_url = ''
+    if page.has_next():
+        next_url = '?page={}'.format(page.next_page_number())
+    else:
+        next_url = ''
+    
+    context = { 
+            'filter_form': filter_form,
+            'genregroups_list': genregroups_list,
+            'page_obj': page,
+            'is_paginated': is_paginated,
+            'prev_url': prev_url,
+            'next_url': next_url,
+            'genre_group': genre_group
+            }
+    return render(request, 'store/catalog.html', context)

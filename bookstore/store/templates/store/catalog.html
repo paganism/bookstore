@@ -1,86 +1,35 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1><a href="{% url 'catalog' %}">Каталог жанров</a></h1>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2 col-md-2 col-lg-2">
-          {% for genre in genregroups_list %}
-        <ul class="catalog">
-          <li><a href="{% url 'catalog' %}?genre_group={{ genre }}">{{ genre }}</a></li>
-        </ul>
-      {% endfor %}
-      <form role="form" class="panel panel-default" method="GET">
-          <div class="panel-body">
-            <p>Выбрать жанр</p>
-            <div class="form-group">
-              <select name="genre_group" class="form-control">
-                 
-                {# for genre in genregroups_list #}
-                <option selected> {{ genre_group }}</option>
-                {% for genre in genregroups_list %}
-                <option value="{{ genre }}">{{ genre }}</option>
-                <!-- <option value="Художественная литература">Художественная литература</option>
-                <option value="Учебная литература">Учебная литература</option>
-                <option value="Иностранные языки">Иностранные языки</option>
-                <option value="Литература для детей">Литература для детей</option>
-                <option value="Медицина">Медицина</option>
-                <option value="Компьютерная литература">Компьютерная литература</option> -->
-                
-                {% endfor %}
-                <!-- <option value="Любой"></option> -->
-                <!-- <option selected></option> -->
-              </select>
-            </div>
-            <div class="form-group">Фильтр
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="new_book" value="True">
-                  новинки
-                </label>
-                <label>
-                    <input type="checkbox" name="bestseller" value="True">
-                  бестселлеры
-                </label>
-              </div>
-            </div>
-            <p><strong>Цена</strong></p>
-            <div class="form-group ">
-              <div class="input-group">
-                <span class="input-group-addon">от </span>
-                <input autocomplete="off" type="text" value="" name="min_price" class="form-control js-price-format"
-                       placeholder="любая">
-                <span class="input-group-addon"> р.</span>
-              </div>
-            </div>
-            <div class="form-group ">
-              <div class="input-group">
-                <span class="input-group-addon">до </span>
-                <input autocomplete="off" type="text" value="" name="max_price" class="form-control js-price-format"
-                       placeholder="любая">
-                <span class="input-group-addon"> р.</span>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-success">Показать</button>
+<h1><a href="{% url 'catalog' %}">Каталог жанров</a></h1>
+<div class="row">
+  <div class="col-sm-2 col-md-2 col-lg-2">
+    {% for genre in genregroups_list %}
+    <ul class="catalog">
+      <li><a href="{% url 'catalog' %}?genre_group={{ genre }}">{{ genre }}</a></li>
+    </ul>
+    {% endfor %}
+
+
+    {% include 'store/includes/filter_form.html' %}
+  </div>
+  <div class="col-sm-8 col-md-8 col-lg-8">
+
+    <div class="card-deck text-center">
+      <div class="row">
+        {% for book in page_obj.object_list %}
+        <div class="card">
+          <a href="{{ book.get_absolute_url }}">
+            <img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}" width="100"></a>
+          <div class="card-body">
+            <h5 class="card-title" style="font-size: 10px;">{{ book.title |truncatechars:50 }}</h5>
+            <p class="card-text">{{ book.author }}</p>
+            <a href="#" class="btn btn-primary">В корзину</a>
           </div>
-        </form>
+        </div>
+        {% endfor %}
       </div>
-    {# for book in book_list #}
-      <div class="col-sm-9 col-md-9 col-lg-9"> 
-          <div class="card-deck">
-          {% for book in book_list %}
-          <div class="card" style="width: 8rem; height: 25rem; font-size: 10px;">
-            <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}"></a>
-            <div class="card-body">
-              <h5 class="card-title"  style="font-size: 10px;">{{ book.title |truncatechars:50 }}</h5>
-              <p class="card-text">{{ book.author }}</p>
-              <a href="#" class="btn btn-primary">В корзину</a>
-            </div>
-          </div>
-          {% endfor %}
-          </div>
-      </div>
-    {# endfor #}
     </div>
   </div>
+</div>
 {% endblock %}

@@ -1,23 +1,11 @@
+/* .card-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    } */
 
-
-/* 2 колонки на sm */
-    @media (min-width: 576px) {
-        .card-columns {
-            -webkit-column-count: 2;
-            column-count: 2
-        }
-    }
-    /* 3 колонки на md */
-    @media (min-width: 768px) {
-        .card-columns {
-            -webkit-column-count: 3;
-            column-count: 3
-        }
-    }
-    /* 4 колонки на lg и xl */
-    @media (min-width: 992px) {
-        .card-columns {
-            -webkit-column-count: 4;
-            column-count: 4
-        }
-    }
+.card-deck {
+    display: flex; 
+    font-size: 10px;
+    margin: 0 auto;
+}
