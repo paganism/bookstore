@@ -35,7 +35,7 @@ class Book(models.Model):
         ('18', '18+')
     )
     allowed_age = models.CharField(max_length=2, choices=AGE_CHOICE, default='0', help_text='Choose age limit')
-    price = models.CharField(max_length=6)
+    price = models.PositiveIntegerField(default=0)
     slug = models.SlugField(max_length=150, blank=True, null=True)
     new_book = models.BooleanField(default=False)
     bestseller = models.BooleanField(default=False)
