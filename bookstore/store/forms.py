@@ -10,6 +10,7 @@ class FilterForm(forms.Form):
     bestseller = forms.BooleanField(label='Бестселлер', required=False)
     min_price = forms.DecimalField(label='Цена от', max_digits=10, min_value=0, max_value=9999, required=False)
     max_price = forms.DecimalField(label='Цена до', max_digits=10, min_value=0, max_value=10001, required=False)
+    author = forms.CharField(label='Автор', max_length=50, required=False)
 
 
     def clean(self):

@@ -55,6 +55,8 @@ class CatalogView(generic.ListView):
         bestseller = self.request.GET.get('bestseller', False)
         min_price = self.request.GET.get('min_price', 0)
         max_price = self.request.GET.get('max_price', None)
+        author = self.request.GET.get('author', None)
+
 
         if genre_group:
             book_list = Book.objects.filter(Q(genre__in=Genre.objects.filter(genre_group__in=GenreGroups.objects.filter(name__exact=genre_group)))
@@ -85,6 +87,7 @@ def catalog_view(request):
     min_price = 0
     max_price = Book.objects.all().aggregate(Max('price'))
     genre_group = ''
+    author = ''
     if filter_form.is_valid():
         filters = filter_form.cleaned_data
         if filters['genre_group']:
@@ -102,6 +105,9 @@ def catalog_view(request):
         if filters['max_price']:
             book_list = book_list.filter(price__lte=filters['max_price'])
             max_price = filters['max_price']
+        if filters['author']:
+            book_list = book_list.filter(author__last_name__icontains=filters['author'])
+            author = filters['author']
     paginator = Paginator(book_list, 5)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
@@ -127,6 +133,7 @@ def catalog_view(request):
             'min_price': min_price,
             'max_price': max_price,
             'new_book': new_book,
-            'bestseller': bestseller
+            'bestseller': bestseller,
+            'author': author
             }
     return render(request, 'store/catalog.html', context)
