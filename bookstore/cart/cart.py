@@ -42,3 +42,13 @@ class Cart:
             item['price'] = Decimal(item['price'])
             item['total_price'] = Decimal(item['total_price'])
             yield item
+
+    def __len__(self):
+        return sum(item['qty'] for item in self.cart.values())
+    
+    def get_total_price(self):
+        return sum(Decimal(item['price']) * item['qty'] fot item in self.cart.values())
+    
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
