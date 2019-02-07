@@ -8,6 +8,8 @@ from .forms import FilterForm
 
 from .models import Book, Author, GenreGroups, Genre
 
+from cart.forms import CartAddProductForm
+
 
 # Create your views here.
 class BookListView(generic.ListView):
@@ -29,12 +31,23 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+    
 
     def get_context_data(self, **kwargs):
+        cart_product_form = CartAddProductForm()
         context = super(BookDetailView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        context['cart_product_form'] = cart_product_form
         print(context)
         return context
+    
+
+    # def ProductDetail(request, id, slug):
+    # product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    # cart_product_form = CartAddProductForm()
+    # return render_to_response('shop/product/detail.html',
+    #                          {'product': product,
+    #                           'cart_product_form': cart_product_form})
 
 class AuthorDetailView(generic.DetailView):
     model = Author

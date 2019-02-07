@@ -36,6 +36,12 @@
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
      </div>
     </div>
+    <p class="price">{{ book.price }} руб.</p>
+    <form action="{% url 'CartAdd' book.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Добавить в корзину">
+    </form>
   </div>
 
 {% endblock %}
