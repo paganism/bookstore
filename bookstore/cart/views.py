@@ -10,18 +10,20 @@ from .forms import CartAddProductForm
 def CartAdd(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Book, id=product_id)
+    
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'],
-                                  update_quantity=cd['update'])
-    return redirect('cart:CartDetail')
+        cart.add(book=product, qty=cd['quantity'],
+                                update_quantity=cd['update'])
+    return redirect('CartDetail')
 
 def CartRemove(request, product_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Book, id=product_id)
+    print('PRODUCT IS: {}'.format(product))
     cart.remove(product)
-    return redirect('cart:CartDetail')
+    return redirect('CartDetail')
 
 def CartDetail(request):
     cart = Cart(request)

@@ -1,4 +1,4 @@
-{% extends "store/base_generic.html" %}
+{% extends "base_generic.html" %}
 {% block title %}
   Ваша корзина товаров
 {% endblock %}
@@ -25,8 +25,10 @@
               </a>
             </td>
             <td>{{ product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td><a href="{% url "cart:CartRemove" product.id %}">Удалить</a></td>
+            <td>{{ item.qty }}</td>
+
+            <td><a href="{% url 'CartRemove' item.book %}">Удалить</a></td>
+                       
             <td class="num">{{ item.price }} руб.</td>
             <td class="num">{{ item.total_price }} руб.</td>
           </tr>
@@ -40,7 +42,7 @@
     </tbody>
   </table>
   <p class="text-right">
-    <a href="{% url "shop:ProductList"%}" class="btn">Продолжить Шопинг</a>
+    <a href="{% url 'store' %}" class="btn">Продолжить Шопинг</a>
     <a href="#">Оформить заказ</a>
   </p>
 {% endblock %}

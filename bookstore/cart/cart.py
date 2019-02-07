@@ -11,7 +11,7 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
     
-    def add(self, book, qty=1, update_qty=False):
+    def add(self, book, qty=1, update_quantity=False):
         book_id = str(book.id)
         if book_id not in self.cart:
             self.cart[book_id] = {'qty': 0,
@@ -40,7 +40,8 @@ class Cart:
     
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = Decimal(item['total_price'])
+            # item['total_price'] = Decimal(item['total_price'])
+            item['total_price'] = item['price'] * item['qty']
             yield item
 
     def __len__(self):
