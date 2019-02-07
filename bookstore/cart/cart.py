@@ -29,7 +29,7 @@ class Cart:
     def remove(self, book):
         book_id = str(book.id)
         if book_id in self.cart:
-            del self.cart['book_id']
+            del self.cart[book_id]
             self.save()
     
     def __iter__(self):

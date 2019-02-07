@@ -26,7 +26,8 @@
             </td>
             <td>{{ product.name }}</td>
             <td>{{ item.qty }}</td>
-
+            <td>{{ item }}</td>
+            <td>{{ product }}</td>
             <td><a href="{% url 'CartRemove' item.book %}">Удалить</a></td>
                        
             <td class="num">{{ item.price }} руб.</td>
