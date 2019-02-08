@@ -21,7 +21,6 @@ def CartAdd(request, product_id):
 def CartRemove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Book, title=product_id)
-    print('PRODUCT IS: {}'.format(product))
     cart.remove(product)
     return redirect('CartDetail')
 
