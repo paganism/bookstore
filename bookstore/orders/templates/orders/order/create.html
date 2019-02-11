@@ -12,8 +12,8 @@
       <input type="submit" value="Отправить">
     </form> </div>
  <div class="order-info col-sm-8"> 
-   <h2>Ваш заказ</h2> 
+   <h2>Ваш заказ</h2>
    <ul> {% for item in cart %} 
-     <li> {{ item.product.name }} | Количество: {{ item.quantity }} | Цена: {{ item.total_price }}
+     <li> {{ item.book }} | Количество: {{ item.qty }} | Цена: {{ item.total_price }}
      </li> {% endfor %} </ul>
  </div> {% endblock %}

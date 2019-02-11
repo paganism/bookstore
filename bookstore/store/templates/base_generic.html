@@ -57,29 +57,27 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'store' %}">Books <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'CartDetail' %}">Корзина</a>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{# url 'CartDetail' #}">Корзина</a>
+                    </li> -->
+
+                    
+                </ul>
+                <li class="nav-item active">
+                        <!-- <div class="cart"> -->
+			                {% with total_items=cart|length %}
+                                {% if cart|length > 0 %}
+                                    Ваша корзина:
+                                    <a href="{% url 'CartDetail' %}">
+                                    {{ total_items }} тов. {{ cart.get_total_price }} руб.
+                                    </a>
+                                {% else %}
+                                    Корзина пуста
+                                {% endif %}
+			                {% endwith %}
+			            <!-- </div>	 -->
                     </li>
 
-                    <li class="nav-item">
-                        <div class="cart">
-			    {% with total_items=cart|length %}
-				{% if cart|length > 0 %}
-				    Ваша корзина:
-				    <a href="{% url 'CartDetail' %}">
-					{{ total_items }} тов. {{ cart.get_total_price }} руб.
-				    </a>
-				  {% else %}
-				    Корзина пуста
-				{% endif %}
-			    {% endwith %}
-			</div>	
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
         <!-- </div>
