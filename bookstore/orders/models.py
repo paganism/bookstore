@@ -2,16 +2,16 @@ from django.db import models
 from store.models import Book
                                                                                          
                                                                                          
-calss Orders(models.Model):
+class Order(models.Model):
     first_name = models.CharField(verbose_name='Имя', max_length=50)
     last_name = models.CharField(verbose_name='Фамилия', max_length=50)
     email = models.EmailField(verbose_name='Email')
     address = models.CharField(verbose_name='Адрес', max_length=250)
     postal_code = models.CharField(verbose_name='Почтовый код', max_length=20)
-    city = models.CharField(verbose_name=Ггород', max_length=100),
+    city = models.CharField(verbose_name='Город', max_length=100)
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Обновлен', auto_now=True)
-    paid = model.BooleanField(verbose_name='Оплачен', default=False)
+    paid = models.BooleanField(verbose_name='Оплачен', default=False)
 
 
     class Meta:
@@ -20,14 +20,14 @@ calss Orders(models.Model):
         verbose_name_plural = 'Заказ'
 
     def __str__(self):
-        return 'Заказ: {}'..format(self.id)
+        return 'Заказ: {}'.format(self.id)
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='items')
-    product = models.DecimalField(Book, related_name='order_items')
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Book, related_name='order_items', on_delete=models.CASCADE, default=None)
     price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
 
