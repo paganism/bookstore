@@ -25,4 +25,5 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('', RedirectView.as_view(url='/store/', permanent=True)),
     path('cart/', include('cart.urls')),
+    path('order/', include('order.urls')),
 ]
