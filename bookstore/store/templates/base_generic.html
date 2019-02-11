@@ -62,7 +62,18 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
+                        <div class="cart">
+			    {% with total_items=cart|length %}
+				{% if cart|length > 0 %}
+				    Ваша корзина:
+				    <a href="{% url "cart:CartDetail" %}">
+					{{ total_items }} тов. {{ cart.get_total_price }} руб.
+				    </a>
+				  {% else %}
+				    Корзина пуста
+				{% endif %}
+			    {% endwith %}
+			</div>	
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
