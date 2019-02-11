@@ -9,7 +9,6 @@ def OrderCreated(order_id):
     Send Email on order created
     """
     order = Order.objects.get(id=order_id)
-    print("ORDER IS {}".format(order))
     subject = 'Заказ с номером {}'.format(order.id)
     message = 'Дорогой {}, вы успешно создали заказ.\
               Номер заказа {} '.format(order.first_name, order.id)
