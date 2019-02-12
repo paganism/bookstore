@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from store.models import Book
+from store.models import Book, GenreGroups
 from .cart import Cart
 from .forms import CartAddProductForm
 
@@ -26,9 +26,10 @@ def CartRemove(request, product_id):
 
 def CartDetail(request):
     cart = Cart(request)
+    genregroups_list = GenreGroups.objects.filter(id__gt=1)
     for item in cart: 
         item['update_quantity_form'] = CartAddProductForm(
                                         initial={ 
                                             'quantity': item['qty'], 
                                             'update': True })
-    return render(request, 'cart/detail.html', {'cart': cart})
+    return render(request, 'cart/detail.html', {'cart': cart, 'genregroups_list': genregroups_list})
