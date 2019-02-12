@@ -17,11 +17,11 @@
     </thead>
     <tbody>
       {% for item in cart %}
-        {% with product=item.product %}
+        {% with product=item.book %}
           <tr>
             <td>
               <a href="{{ product.get_absolute_url }}">
-                <img src="{{ product.image.url }}" alt="" />{{ item }}
+                <img src="/static/{{ product.book_image }}" alt="{{ product.book_image }}" width="150" class="rounded float-left"/>
               </a>
             </td>
             <td>{{ item.book }}</td>

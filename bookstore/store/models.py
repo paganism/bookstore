@@ -84,6 +84,7 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=100, help_text='Enter a book genre')
 
@@ -109,6 +110,6 @@ class Publisher(models.Model):
 
     class Meta:
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
