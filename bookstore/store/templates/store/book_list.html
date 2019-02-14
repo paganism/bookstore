@@ -4,20 +4,47 @@
     <h1>Книги в наличии</h1>
     
     {% if book_list %}
-    <div class="row">
-        
-      {% for book in book_list %}
+    <section class="text-center mb-4">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mb-4">
+              {% for book in book_list|slice:"3" %}
 
-      <div class="card mt-5 ml-4 " style="width: 10rem; font-size: 15px;">
-        <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}"></a>
-        <div class="card">
-          <h5 class="card-title"  style="font-size: 15px;">{{ book.title |truncatechars:50 }}</h5>
-          <p class="card-text">{{ book.author }}</p>
-          <a href="#" class="btn btn-primary">В корзину</a>
+              <div class="card">
+                <div class="view overlay">
+                  <img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}">
+                  <a href="{{ book.get_absolute_url }}">
+                    <div class="mask rgba-white-slide"></div>
+                  </a>
+                </div>
+
+                <div class="card-body text-center">
+                  <a href="">
+                    <div class="grey-text">
+                      <h5>{{ book.author |truncatechars:50 }}</h5>
+                    </div>
+                  </a>
+
+                  <h5>
+                    <strong>
+                      <a href="#" class="dark-grey-text"> {{ book.title |truncatechars:50 }} 
+                        <span class="badge badge-pill badge-danger">NEW</span></a>
+                    </strong>
+                  </h5>
+                  <h4 class="font-weight-bold text-success">
+                    <strong>{{ book.price }}</strong>
+                  </h4>
+                </div>
+                <!-- <a href="{# book.get_absolute_url #}"><img class="card-img-top" src="/static/{# book.book_image #}" alt="{{ book.title }}"></a> -->
+                <!-- <div class="card">
+                  <h5 class="card-title"  style="font-size: 15px;">{# book.title |truncatechars:50 #}</h5>
+                  <p class="card-text">{# book.author #}</p>
+                  <a href="#" class="btn btn-primary">В корзину</a>
+                </div> -->
+              </div>
+              {% endfor %}
+            </div>
         </div>
-      </div>
-      {% endfor %}
-    </div>
+      </section>
     {% else %}
       <p>There are no books in the library.</p>
     {% endif %}       
