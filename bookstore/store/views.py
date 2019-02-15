@@ -18,7 +18,7 @@ class BookListView(generic.ListView):
     template_name = 'store/book_list.html'
 
     def get_queryset(self):
-        book_list = Book.objects.all()
+        book_list = Book.objects.all()[:12]
         return book_list
 
     def get_context_data(self, **kwargs):
