@@ -11,20 +11,24 @@ from .models import Book, Author, GenreGroups, Genre
 from cart.forms import CartAddProductForm
 
 
-# Create your views here.
+BOOK_NUMBER_IN_MAIN_PAGE = 12
+
+GENRE_GROUPS_LIST = GenreGroups.objects.filter(id__gt=1)
+
+
+
 class BookListView(generic.ListView):
     model = Book, GenreGroups
     paginate_by = 10
     template_name = 'store/book_list.html'
 
     def get_queryset(self):
-        book_list = Book.objects.all()[:12]
+        book_list = Book.objects.all()[:BOOK_NUMBER_IN_MAIN_PAGE]
         return book_list
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
-        context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
-
+        context['genregroups_list'] = GENRE_GROUPS_LIST
         print(context)
         return context
 
@@ -36,25 +40,20 @@ class BookDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         cart_product_form = CartAddProductForm()
         context = super(BookDetailView, self).get_context_data(**kwargs)
-        context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        context['genregroups_list'] = GENRE_GROUPS_LIST
         context['cart_product_form'] = cart_product_form
         print(context)
         return context
     
-
-    # def ProductDetail(request, id, slug):
-    # product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    # cart_product_form = CartAddProductForm()
-    # return render_to_response('shop/product/detail.html',
-    #                          {'product': product,
-    #                           'cart_product_form': cart_product_form})
 
 class AuthorDetailView(generic.DetailView):
     model = Author
 
     def get_context_data(self, **kwargs):
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
-        context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        context['genregroups_list'] = GENRE_GROUPS_LIST
         print(context)
         return context
 
@@ -84,7 +83,8 @@ class CatalogView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CatalogView, self).get_context_data(**kwargs)
-        context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        context['genregroups_list'] = GENRE_GROUPS_LIST
         genre_group = self.request.GET.get('genre_group', '')
         context['genre_group'] = genre_group
 
@@ -93,7 +93,8 @@ class CatalogView(generic.ListView):
 
 def catalog_view(request):
     book_list = Book.objects.all()
-    genregroups_list = GenreGroups.objects.filter(id__gt=1)
+    # genregroups_list = GenreGroups.objects.filter(id__gt=1)
+    genregroups_list = GENRE_GROUPS_LIST
     filter_form = FilterForm(request.GET or None)
     new_book = False
     bestseller = False
