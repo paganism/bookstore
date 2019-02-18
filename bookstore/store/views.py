@@ -11,6 +11,7 @@ from .models import Book, Author, GenreGroups, Genre
 from cart.forms import CartAddProductForm
 
 
+
 BOOK_NUMBER_IN_MAIN_PAGE = 12
 
 GENRE_GROUPS_LIST = GenreGroups.objects.filter(id__gt=1)

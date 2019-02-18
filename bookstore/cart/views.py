@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 from store.models import Book, GenreGroups
 from .cart import Cart
 from .forms import CartAddProductForm
+from store.views import GENRE_GROUPS_LIST
 
 
 @require_POST
@@ -26,7 +27,7 @@ def CartRemove(request, product_id):
 
 def CartDetail(request):
     cart = Cart(request)
-    genregroups_list = GenreGroups.objects.filter(id__gt=1)
+    genregroups_list = GENRE_GROUPS_LIST
     for item in cart: 
         item['update_quantity_form'] = CartAddProductForm(
                                         initial={ 

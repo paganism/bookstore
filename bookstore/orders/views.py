@@ -5,11 +5,12 @@ from store.models import GenreGroups
 from .forms import OrderCreateForm
 from cart.cart import Cart
 from . tasks import OrderCreated
+from store.views import GENRE_GROUPS_LIST
 
 
 def OrderCreate(request):
     cart = Cart(request)
-    genregroups_list = GenreGroups.objects.filter(id__gt=1)
+    genregroups_list = GENRE_GROUPS_LIST
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
