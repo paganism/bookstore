@@ -19,7 +19,9 @@
                 <h5>
                     <strong>
                         <a href="{{ book.get_absolute_url }}" class="dark-grey-text"> {{ book.title |truncatechars:50 }}
+                            {% if book.new_book %}
                             <span class="badge badge-pill badge-danger">NEW</span></a>
+                            {% endif %}
                     </strong>
                 </h5>
                 <h4 class="font-weight-bold text-success">
