@@ -5,15 +5,14 @@
 
 {% if book_list %}
 <section>
+    <div class="row">
     {% for book in book_list %}
         {% if forloop.counter0|divisibleby:4 %}
             {% if forloop.first %}
-                <div class="row">
                 {% include 'store/includes/book_card.html' %}
 
             {% else %}
-                </div>
-            <div class="row">
+
             {% include 'store/includes/book_card.html' %}
 
             {% endif %}
@@ -25,6 +24,7 @@
         {% endif %}
 
     {% endfor %}
+    </div>
 </section>
 {% else %}
 <p>There are no books in the library.</p>
