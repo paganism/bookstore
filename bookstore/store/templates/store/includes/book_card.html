@@ -1,6 +1,8 @@
 <div class="col-lg-3 col-md-4 mb-4">
     <div class="card">
-        <img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}">
+        <a href="{{ book.get_absolute_url }}">
+            <img class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}">
+        </a>
         <div class="card-block">
             <h4 class="card-title"></h4>
             <p class="card-text text-center">
