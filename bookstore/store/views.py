@@ -10,12 +10,11 @@ from .models import Book, Author, GenreGroups, Genre
 
 from cart.forms import CartAddProductForm
 
+from .utils import get_carousel_img_list
 
 
 BOOK_NUMBER_IN_MAIN_PAGE = 12
-
 GENRE_GROUPS_LIST = GenreGroups.objects.filter(id__gt=1)
-
 
 
 class BookListView(generic.ListView):
@@ -28,9 +27,11 @@ class BookListView(generic.ListView):
         return book_list
 
     def get_context_data(self, **kwargs):
+        carousel_img_list = get_carousel_img_list()
         context = super(BookListView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GENRE_GROUPS_LIST
-        print(context)
+        context['carousel_img_list'] = carousel_img_list
+        # print(context)
         return context
 
 
@@ -44,7 +45,7 @@ class BookDetailView(generic.DetailView):
         # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
         context['genregroups_list'] = GENRE_GROUPS_LIST
         context['cart_product_form'] = cart_product_form
-        print(context)
+        # print(context)
         return context
     
 
@@ -55,7 +56,7 @@ class AuthorDetailView(generic.DetailView):
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
         # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
         context['genregroups_list'] = GENRE_GROUPS_LIST
-        print(context)
+        # print(context)
         return context
 
 class CatalogView(generic.ListView):
