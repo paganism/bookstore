@@ -1,0 +1,34 @@
+<div class="col-lg-3 col-md-4 mb-4">
+    <div class="card">
+        <div class="view overlay">
+            <div class="card-img-top" src="/static/{{ book.book_image }}" alt="{{ book.title }}">
+
+                <a href="{{ book.get_absolute_url }}">
+                    <img src="/static/{{ book.book_image }}" width="250" alt="{{ book.title }}">
+                    <div class="mask rgba-white-slide"></div>
+                </a>
+            </div>
+
+            <div class="card-body text-center">
+                <a href="{% url 'author-detail' book.author.id %}">
+                    <div class="grey-text">
+                        <h5>{{ book.author |truncatechars:50 }}</h5>
+                    </div>
+                </a>
+
+                <h5>
+                    <strong>
+                        <a href="{{ book.get_absolute_url }}" class="dark-grey-text"> {{ book.title |truncatechars:50 }}
+                            {% if book.new_book %}
+                            <span class="badge badge-pill badge-danger">NEW</span></a>
+                            {% endif %}
+                    </strong>
+                </h5>
+                <h4 class="font-weight-bold text-success">
+                    <strong>Цена: {{ book.price }}</strong>
+                </h4>
+            </div>
+
+        </div>
+    </div>
+</div>
