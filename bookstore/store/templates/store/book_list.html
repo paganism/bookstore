@@ -54,21 +54,7 @@
 
         {% for book in book_list %}
 
-        {% if forloop.counter0|divisibleby:4 %}
-        {% if forloop.first %}
         {% include 'store/includes/book_card.html' %}
-
-        {% else %}
-
-        {% include 'store/includes/book_card.html' %}
-
-        {% endif %}
-
-        {% else %}
-
-        {% include 'store/includes/book_card.html' %}
-
-        {% endif %}
 
         {% endfor %}
     </div>
