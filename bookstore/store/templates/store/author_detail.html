@@ -16,9 +16,20 @@
       <!-- <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>   -->
   </div>
 
-<div class="col-sm-3 col-lg-3 col-md-3 mt-4">
-    Тут будет фотография и биография Автора, а также ссылки на его книги
+    <div class="col-sm-3 col-lg-3 col-md-3 mt-4">
+          Тут будет фотография и биография Автора, а также ссылки на его книги
     </div>
-  </div>
-
+</div>
+    <section class="book-list">
+    <h3>Все книги</h3> </div>
+        <hr>
+    <div class="row">
+                                                                                                                                                                                                              
+        {% for book in book_list %}
+                                                                                                                                                                                                              
+        {% include 'store/includes/book_card.html' %}
+                                                                                                                                                                                                                                                                                                                                                                                                                           
+        {% endfor %}
+    </div>
+</section>  
 {% endblock %}

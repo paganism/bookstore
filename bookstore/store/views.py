@@ -22,6 +22,7 @@ class BookListView(generic.ListView):
     paginate_by = 10
     template_name = 'store/book_list.html'
 
+
     def get_queryset(self):
         book_list = Book.objects.all()[:BOOK_NUMBER_IN_MAIN_PAGE]
         return book_list
@@ -31,13 +32,11 @@ class BookListView(generic.ListView):
         context = super(BookListView, self).get_context_data(**kwargs)
         context['genregroups_list'] = GENRE_GROUPS_LIST
         context['carousel_img_list'] = carousel_img_list
-        # print(context)
         return context
 
 
 class BookDetailView(generic.DetailView):
     model = Book
-    
 
     def get_context_data(self, **kwargs):
         cart_product_form = CartAddProductForm()
@@ -47,17 +46,18 @@ class BookDetailView(generic.DetailView):
         context['cart_product_form'] = cart_product_form
         # print(context)
         return context
-    
+
 
 class AuthorDetailView(generic.DetailView):
     model = Author
 
     def get_context_data(self, **kwargs):
         context = super(AuthorDetailView, self).get_context_data(**kwargs)
-        # context['genregroups_list'] = GenreGroups.objects.filter(id__gt=1)
+        context['book_list'] = Book.objects.filter(author=context['author'])
         context['genregroups_list'] = GENRE_GROUPS_LIST
-        # print(context)
+        print(context['author'])
         return context
+
 
 class CatalogView(generic.ListView):
     template_name = 'store/catalog1.html'
