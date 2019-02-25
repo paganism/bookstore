@@ -25,7 +25,7 @@ SECRET_KEY = '4*fizn=%du0&-%q@ylssgmo94)opbq7q@a*y(sjl!re3(w7&+p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['80.211.16.55']
 
 
 # Application definition
@@ -133,3 +133,4 @@ CART_SESSION_ID = 'cart'
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+LOGGING = { 'version': 1, 'filters': { 'require_debug_true': { '()': 'django.utils.log.RequireDebugTrue', } }, 'handlers': { 'console': { 'level': 'DEBUG', 'filters': ['require_debug_true'], 'class': 'logging.StreamHandler', } }, 'loggers': { 'django.db.backends': { 'level': 'DEBUG', 'handlers': ['console'], } } }
