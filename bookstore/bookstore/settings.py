@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = '4*fizn=%du0&-%q@ylssgmo94)opbq7q@a*y(sjl!re3(w7&+p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['80.211.16.55']
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -65,14 +63,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-		'cart.context_processors.cart',
+                'cart.context_processors.cart',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'bookstore.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -83,7 +80,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -103,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -117,7 +112,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
@@ -129,8 +123,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 
 CART_SESSION_ID = 'cart'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGGING = { 'version': 1, 'filters': { 'require_debug_true': { '()': 'django.utils.log.RequireDebugTrue', } }, 'handlers': { 'console': { 'level': 'DEBUG', 'filters': ['require_debug_true'], 'class': 'logging.StreamHandler', } }, 'loggers': { 'django.db.backends': { 'level': 'DEBUG', 'handlers': ['console'], } } }
+LOGGING = {'version': 1,
+           'filters': {'require_debug_true': {'()': 'django.utils.log.RequireDebugTrue', }},
+           'handlers': {'console': {'level': 'DEBUG', 'filters': ['require_debug_true'],
+                                    'class': 'logging.StreamHandler', }},
+           'loggers': {'django.db.backends': {'level': 'DEBUG', 'handlers': ['console'], }}}

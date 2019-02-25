@@ -68,6 +68,7 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField(null=True, blank=True)
+    author_image = models.ImageField(upload_to='img/authors', width_field=None, null=True, default='img/authors/noname.png')
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
 
