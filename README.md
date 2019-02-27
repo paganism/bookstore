@@ -3,6 +3,7 @@
 This is a simple bookstore site.
 It contains main page, book catalog with filters, book page, author page, cart and orders page.
 
+Example you can see [here](http://80.211.16.55:5010)
 # How to deploy on localhost
 ```bash
 $ pip install -r requirements.txt
