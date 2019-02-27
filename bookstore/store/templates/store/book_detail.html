@@ -10,7 +10,7 @@
 
   <div class="col-sm-5 col-lg-3 col-md-5 mt-4">
       <p><a href="/static/{{ book.book_image }}"><img class="rounded float-left" src="/static/{{ book.book_image }}" alt="{{ book.title }}"  style="width: 15rem;"></a></p>
-      
+
   </div>
 
 <div class="col-sm-6 col-lg-4 col-md-5 mt-4">
@@ -25,8 +25,8 @@
         <div class="tab-pane fade show active mt-4 mr-2 ml-2" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             Автор: <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a><br>
             Краткое описание: {{ book.summary }} <br>
-            ISBN: {{ book.isbn }} <br> 
-            Язык: {{ book.language }}  <br> 
+            ISBN: {{ book.isbn }} <br>
+            Язык: {{ book.language }}  <br>
             Жанр: {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %} <br>
             Цена: {{ book.price }} <br>
             <form action="{% url 'CartAdd' book.id %}" method="post">
@@ -46,5 +46,12 @@
     </div>
   </div>
 </div>
+    <div class="row">
+        <div class="col-lg-10 mt-4 text-center">
+            {% if book.video %}
+            <iframe width="560" height="315" src="{{ book.video }}" frameborder="0" allowfullscreen></iframe>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

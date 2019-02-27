@@ -24,7 +24,7 @@ SECRET_KEY = '4*fizn=%du0&-%q@ylssgmo94)opbq7q@a*y(sjl!re3(w7&+p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', '192.168.1.35']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'cart',
     'orders',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.cart',
+
             ],
         },
     },

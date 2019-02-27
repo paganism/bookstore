@@ -3,6 +3,8 @@ from django.shortcuts import reverse
 from django.utils.text import slugify
 from time import time
 
+from embed_video.fields import EmbedVideoField
+
 
 def gen_slug(s):
     new_slug = slugify(s, allow_unicode=True)
@@ -42,6 +44,7 @@ class Book(models.Model):
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
     book_image = models.ImageField(upload_to='img/', width_field=None, null=True)
+    video = EmbedVideoField(blank=True, verbose_name='Видео')
     
     def __str__(self):
         return self.title

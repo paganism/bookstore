@@ -13,6 +13,11 @@ $ python3 manage.py runserver 5000
 Then open the page [localhost:5000](http://localhost:5000) in browser.
 
 ## To run celery:
+First of all install rabbit-mq (ubuntu example):
+```
+$ sudo apt install rabbitmq-server
+```
+Be shure that rabbitmq-server daemon is running
 ```
 $ celery -A myshop worker -l info
 $ celery -A myshop flower
