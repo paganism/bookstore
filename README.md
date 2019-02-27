@@ -1,6 +1,7 @@
 # Book Store Site
 
-This is a bookstore site. It contains main page, catalog with filters, book page, author page and also it has bin page (in development)
+This is a simple bookstore site.
+It contains main page, book catalog with filters, book page, author page, cart and orders page.
 
 # How to deploy on localhost
 ```bash
@@ -16,4 +17,4 @@ $ celery -A myshop flower
 
 # Project Goals
 
-The code is written for educational purposes.
+The code is written for educational purposes only.
