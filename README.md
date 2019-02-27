@@ -7,6 +7,8 @@ Example you can see [here](http://80.211.16.55:5010)
 # How to deploy on localhost
 ```bash
 $ pip install -r requirements.txt
+$ python3 manage.py runserver 5000
+
 ```
 Then open the page [localhost:5000](http://localhost:5000) in browser.
 
